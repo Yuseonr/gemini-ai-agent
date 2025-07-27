@@ -1,0 +1,9 @@
+# Ignore .venv .env
+.venv
+.env
+
+# ignore python stuff
+__pycache__
+
+# ignore mac stuff
+.DS_Store
