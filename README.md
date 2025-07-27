@@ -2,7 +2,9 @@
 # Gemini AI Agent Project
 
 ## I/O Example : 
-(gemini-ai-agent) rafianandra@192 gemini-ai-agent % uv run main.py 'give me one line of sentence on why i should learn AI Agents'
+
+```bash
+(gemini-ai-agent) ra****@192 gemini-ai-agent % uv run main.py 'give me one line of sentence on why i should learn AI Agents'
 
 
 Hello from gemini-ai-agent!
@@ -17,3 +19,4 @@ Learning AI Agents will equip you with skills to automate complex tasks, create 
 
 Prompt tokens: 13
 Response tokens: 25
+```
