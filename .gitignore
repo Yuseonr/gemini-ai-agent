@@ -7,3 +7,6 @@ __pycache__
 
 # ignore mac stuff
 .DS_Store
+
+# ignore test stuff
+/calculator

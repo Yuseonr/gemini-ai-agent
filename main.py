@@ -2,6 +2,7 @@ import os
 import sys
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -16,31 +17,50 @@ def select_model(task_complexity="simple"):
     return models.get(task_complexity, models['simple'])
 
 def main():
+    verbose = "--verbose" in sys.argv
+ 
+    args = []
+    for arg in sys.argv[1:] :
+        if not '--' in arg :
+            args.append(arg)
 
     # Input and models
-    promt_arg = sys.argv[1]
+    promt_arg = ' '.join(args)
     model_pick = select_model('simple')
 
+    # No args handling
+    if not args :
+        print("\n--------------------------ALICE-------------------------\n")
+        print('Usage: python main.py "your prompt here" [--verbose]')
+        print('Example: python main.py "How do I become an software dev"\n')
+        sys.exit(1)
+
+    # assign role and setup for context memory
+    messages = [
+        types.Content(role='user', parts=[types.Part(text=promt_arg)]),
+    ]
+
+    if verbose :
+        print("\n\nHello from gemini-ai-agent ALICE!\n")
+        print(f'User prompt: {promt_arg}\nYour model : {model_pick}\nGenerating response ...\n\n')
     
-    print("\n\nHello from gemini-ai-agent!\n")
-    print(f'Your promt : {promt_arg}\nYour model : {model_pick}\nGenerating response ...\n\n')
-    
+    # Generating Response object
     response = client.models.generate_content(
-        model=model_pick, contents=promt_arg
+        model=model_pick, contents=messages
     )
     
+    # Metadata
     tokens = response.usage_metadata.prompt_token_count
     res_tokens = response.usage_metadata.candidates_token_count
-    get_text_response = response.text
 
+    # Response object to text
+    get_text_response = response.text
     print(get_text_response)
-    print(f'\nPrompt tokens: {tokens}')
-    print(f'Response tokens: {res_tokens}')
+
+    if verbose :
+        print(f'\nPrompt tokens: {tokens}')
+        print(f'Response tokens: {res_tokens}')
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
         main()
-    else :
-        print(f'main.py accepts 1 Args but {len(sys.argv) - 1} are given!')
-        sys.exit(1)
