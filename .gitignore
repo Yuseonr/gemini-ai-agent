@@ -10,3 +10,4 @@ __pycache__
 
 # ignore test stuff
 /calculator
+tests.py
