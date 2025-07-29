@@ -2,7 +2,6 @@
 
 import os
 import subprocess
-import time
 
 def run_python_file(working_directory, file_path, args=[]):
     abs_target_path = os.path.abspath(os.path.join(working_directory, file_path))
@@ -28,7 +27,7 @@ def run_python_file(working_directory, file_path, args=[]):
             components.append(f"Process exited with code  {run_object.returncode}")
         return "\n".join(components) if components else "No output produced."
     except Exception as e:
-        return f"Error: executing Python file: {e}"
+        return f"Error: executing Python file {file_path}: {e}"
 
     
 #         return_code = f"Process exited with code {run_object.returncode}" if run_object.returncode != 0 else ''

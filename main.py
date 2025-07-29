@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
+from call_functions import available_functions
+from sy_prompt import system_promt
+
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key)
@@ -23,7 +26,7 @@ def main():
     for arg in sys.argv[1:] :
         if not '--' in arg :
             args.append(arg)
-
+    
     # Input and models
     promt_arg = ' '.join(args)
     model_pick = select_model('simple')
@@ -46,8 +49,11 @@ def main():
     
     # Generating Response object
     response = client.models.generate_content(
-        model=model_pick, contents=messages
-    )
+        model=model_pick, 
+        contents=messages,
+        config=types.GenerateContentConfig(
+                tools=[available_functions], system_instruction=system_promt,)
+        )
     
     # Metadata
     tokens = response.usage_metadata.prompt_token_count
@@ -55,12 +61,19 @@ def main():
 
     # Response object to text
     get_text_response = response.text
-    print(get_text_response)
+    # Response object to list of called function
+    func_call = response.function_calls
 
+    # spesify all the func you called
+    if func_call :
+         for function in func_call :
+              print(f"Calling function: {function.name}({function.args})")
+    else :
+         print(get_text_response)
+    
     if verbose :
         print(f'\nPrompt tokens: {tokens}')
         print(f'Response tokens: {res_tokens}')
-
 
 if __name__ == "__main__":
         main()
