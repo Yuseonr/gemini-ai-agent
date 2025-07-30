@@ -23,7 +23,7 @@ def call_function(function_call_part, verbose=False):
     if verbose:
         print(f"Calling function: {function_name}({function_call_part.args})")
     else:
-        print(f" - Calling function: {function_name}")
+        print(f" - Calling function: {function_name}({function_call_part.args})")
     
     # Check if function name is valid
     if function_name not in available_functions:

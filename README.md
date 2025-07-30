@@ -4,19 +4,46 @@
 ## I/O Example : 
 
 ```bash
-(gemini-ai-agent) ra****@192 gemini-ai-agent % uv run main.py 'give me one line of sentence on why i should learn AI Agents'
+uv run main.py "can write a .py file called test/robot.py, the content will be for _ in range (0,100): print('IM A ROBOT)"
+
+Warning: there are non-text parts in the response: ['function_call'],returning concatenated text result from text parts,check out the non text parts for full response from model.
+ - Calling function: write_file({'file_path': 'test/robot.py', 'content': "for _ in range (0,100): print('IM A ROBOT')"})
+{'result': 'Successfully wrote to "test/robot.py" (43 characters written)'}
+
+uv run main.py "can u run robot.py?" --verbose                                                                            
 
 
-Hello from gemini-ai-agent!
+Hello from gemini-ai-agent ALICE!
 
-Your promt : give me one line of sentence on why i should learn AI Agents
+User prompt: can u run robot.py?
 Your model : gemini-2.0-flash-001
 Generating response ...
 
 
-Learning AI Agents will equip you with skills to automate complex tasks, create intelligent systems, and shape the future of technology.
+Warning: there are non-text parts in the response: ['function_call'],returning concatenated text result from text parts,check out the non text parts for full response from model.
+Calling function: run_python_file({'file_path': 'robot.py'})
+{'result': 'Error: File "robot.py" not found.'}
+-> {'result': 'Error: File "robot.py" not found.'}
 
+Prompt tokens: 324
+Response tokens: 11
 
-Prompt tokens: 13
-Response tokens: 25
+uv run main.py "can u run robot.py inside test directory?" 
+
+Warning: there are non-text parts in the response: ['function_call'],returning concatenated text result from text parts,check out the non text parts for full response from model.
+ - Calling function: run_python_file({'file_path': 'test/robot.py'})
+{'result': 'STDOUT:\n IM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\nIM A ROBOT\n'}
+
+uv run main.py "can u show me the content of  robot.py inside test directory?"
+
+Warning: there are non-text parts in the response: ['function_call'],returning concatenated text result from text parts,check out the non text parts for full response from model.
+ - Calling function: get_file_content({'file_path': 'test/robot.py'})
+{'result': "for _ in range (0,100): print('IM A ROBOT')"}
+
+uv run main.py "can u list me all the file inside test directory?"
+
+Warning: there are non-text parts in the response: ['function_call'],returning concatenated text result from text parts,check out the non text parts for full response from model.
+ - Calling function: get_files_info({'directory': 'test'})
+{'result': '- robot.py: file_size=43 bytes, is_dir=False'}
 ```
+
