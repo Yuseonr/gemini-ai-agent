@@ -49,7 +49,7 @@ schema_write_file = types.FunctionDeclaration(
 )
 
 schema_run_python_file = types.FunctionDeclaration(
-    name="run_pythob_file",
+    name="run_python_file",
     description="Executes a Python (.py) file located within the working directory with optional command-line arguments., constrained to the working directory.",
     parameters=types.Schema(
         type=types.Type.OBJECT,
