@@ -5,7 +5,7 @@ from google import genai
 from google.genai import types
 
 from call_functions import available_functions
-from sy_prompt import system_promt
+from prompt import system_promt
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
