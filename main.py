@@ -4,10 +4,8 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-from avail_functions import available_functions
+from call_functions import available_functions, call_function
 from prompt import system_promt
-
-from functions.call_function import call_function
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -67,15 +65,18 @@ def main():
     func_call = response.function_calls
 
     # spesify all the func you called
+    result_called_function = []
     if func_call :
          for function in func_call :
               result = call_function(function,verbose)
-              try :
-                   print(result.parts[0].function_response.response)                 
-                   if verbose :
-                        print(f"-> {result.parts[0].function_response.response}")
-              except Exception as e :
-                   print(f'Error : {e}')
+              if (not result.parts or not result.parts[0].function_response) :
+                   raise Exception("empty function call result")
+              if verbose :
+                   print(f"-> {result.parts[0].function_response.response}")
+              result_called_function.append(result.parts[0].function_response.response)
+              
+         if not result_called_function : 
+             raise Exception("no function responses generated.")
     else :
          print(get_text_response)
     
